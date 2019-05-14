@@ -10,7 +10,7 @@
             <p style="line-height: 50px;">
                 直接通过设置类名为 el-icon-lx-iconName 来使用即可。例如：（共{{iconList.length}}个图标）
             </p>
-           <div>{{demov}}</div>
+           <div>{{PLCTag}}</div>
 
             <el-button @click="search()" type="success" icon="el-icon-search" round>默认按钮</el-button>
             <i class="el-icon-lx-redpacket_fill"></i>
@@ -23,9 +23,8 @@
                 <span>&lt;i class=&quot;el-icon-lx-weibo&quot;&gt;&lt;/i&gt;</span>
             </p>
             <p class="example-p">
-                <i class="el-icon-lx-icon-test16"></i>
-                <i class="el-icon-lx-emojifill" style="font-size: 30px;color: #ffc300"></i>
-                <span>&lt;i class=&quot;el-icon-lx-icon-test16&quot;&gt;&lt;/i&gt;</span>
+                <i class="el-icon-lx-time"></i>
+                <span>&lt;i class=&quot;el-icon-lx-time&quot;&gt;&lt;/i&gt;</span>
             </p>
             <br>
             <h2>图标</h2>
@@ -35,7 +34,7 @@
             <ul>
                 <li class="icon-li" v-for="(item,index) in list" :key="index">
                     <div class="icon-li-content">
-                        <i :class="`el-icon-lx-icon-${item}`"></i>
+                        <i :class="`el-icon-lx-${item}`"></i>
                         <span>{{item}}</span>
                     </div>
                 </li>
@@ -47,145 +46,76 @@
 </template>
 
 <script>
+    import {getList,HistoryValueSelect} from "../../api/myapi"
+
     export default {
         data: function(){
             return {
                 keyword: '',
-                demov:{
-                    tid: 1,
-                    tagName: null,
-                    dataType: null,
-                    address: null,
-                    arrLength: null,
+                PLCTag:{
+                    tid: 10,
+                    tagName: "tag10",
+                    dataType: "Interger",
+                    address:"M100",
+                    arrLength: 0,
                     historyValuesList: null
                 },
                 iconList: [
-                    'test28',
-                    'test26',
-                    'attention',
-                    'attentionfill',
-                    'tag',
-                    'tagfill',
-                    'people',
-                    'peoplefill',
-                    'notice',
-                    'noticefill',
-                    'mobile',
-                    'mobilefill',
-                    'voice',
-                    'voicefill',
-                    'unlock',
-                    'lock',
-                    'home',
-                    'homefill',
-                    'delete',
-                    'deletefill',
-                    'notification',
-                    'notificationfill',
-                    'notificationforbidfill',
-                    'like',
-                    'likefill',
-                    'comment',
-                    'commentfill',
-                    'camera',
-                    'camerafill',
-                    'warn',
-                    'warnfill',
-                    'time',
-                    'timefill',
-                    'location',
-                    'locationfill',
-                    'favor',
-                    'favorfill',
-                    'skin',
-                    'skinfill',
-                    'news',
-                    'newsfill',
-                    'record',
-                    'recordfill',
-                    'emoji',
-                    'emojifill',
+                    'view',
+                    'view_off',
                     'message',
-                    'messagefill',
-                    'goods',
-                    'goodsfill',
-                    'crown',
-                    'crownfill',
-                    'move',
-                    'add',
-                    'hot',
-                    'hotfill',
-                    'service',
-                    'servicefill',
-                    'present',
-                    'presentfill',
-                    'pic',
-                    'picfill',
-                    'rank',
-                    'rankfill',
-                    'male',
-                    'female',
-                    'down',
-                    'top',
-                    'recharge',
-                    'rechargefill',
-                    'forward',
-                    'forwardfill',
-                    'info',
-                    'infofill',
-                    'redpacket',
-                    'redpacket_fill',
-                    'roundadd',
-                    'roundaddfill',
-                    'friendadd',
-                    'friendaddfill',
-                    'cart',
-                    'cartfill',
-                    'more',
-                    'moreandroid',
-                    'back',
-                    'right',
-                    'shop',
-                    'shopfill',
-                    'question',
-                    'questionfill',
-                    'roundclose',
-                    'roundclosefill',
-                    'roundcheck',
-                    'roundcheckfill',
-                    'global',
-                    'mail',
-                    'punch',
-                    'exit',
-                    'upload',
-                    'read',
-                    'file',
-                    'link',
-                    'full',
-                    'group',
-                    'friend',
-                    'profile',
-                    'addressbook',
-                    'calendar',
-                    'text',
-                    'copy',
-                    'share',
-                    'wifi',
-                    'vipcard',
-                    'weibo',
-                    'remind',
-                    'refresh',
-                    'filter',
-                    'settings',
-                    'scan',
-                    'qrcode',
-                    'cascades',
-                    'apps',
-                    'sort',
-                    'searchlist',
+                    'record',
+                    'time',
+                    'order',
+                    'order_unread',
                     'search',
-                    'edit'
-                ]
+                    'edit',
+                    'link',
+                    'share',
+                    'setting',
+                    'download',
+                    'lock',
+                    'unlock',
+                    'image',
+                    'email',
+                    'copy',
+                    'user',
+                    'list',
+                    'refresh',
+                    'close_filled',
+                    'check',
+                    'close',
+                    'check_filled',
+                    'forbidden',
+                    'forbidden_filled',
+                    'info_filled',
+                    'info',
+                    'help_filled',
+                    'help',
+                    'caution',
+                    'caution_filled',
+                    'like',
+                    'like_filled',
+                    'star',
+                    'star_filled',
+                    'shouye',
+                    'biaoge'
+                ],
+            pagebean:{
+                page: 1,
+                rows: 10,
+                totalRecord: 3,
+                list: [],
+                keyWord: null,
+                paramEntity: null,
+                start: 0,
+                pageMap: {
+                total: 3,
+                    rows: []
+            }
+                }
+
+
             }
         },
         computed: {
@@ -197,16 +127,31 @@
         },
         methods:{
             search() {
-             /*   this.$http.get('http://192.168.1.117:8080/hello')
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                    .then(function (response) {
-                        console.log(response);
-                        this.demov=response.data;
-                    }.bind(this));*/
+               var _this=this
+              /* getList({ "page":1,"rows":10}).then(function (response){
+                   console.log(response);
+                   _this.PLCTag=response.list[0];
+               })*/
 
-                this.$http({
+                this.pagebean.paramEntity=this.PLCTag;
+
+              HistoryValueSelect(this.pagebean).then(function (res) {
+                  console.log(res)
+              })
+
+             /*   this.$http({
+                    method: 'get',
+                    url: 'http://192.168.1.117:8080/PLCTagSelect',
+                    params: {
+                        "page":1,
+                        "rows":10
+                    }
+                }).then(function (response) {
+                    console.log(response);
+                    //this.PLCTag=response.data;
+                }.bind(this));*/
+
+             /*   this.$http({
                     method: 'post',
                     url: 'http://192.168.1.117:8080/PLCTagInsert',
                     data: {
@@ -215,7 +160,22 @@
                 }).then(function (response) {
                     console.log(response);
                     this.demov=response.data;
-                }.bind(this));
+                }.bind(this));*/
+                //const nPLCTag=JSON.stringify(this.PLCTag)
+
+
+                const nPLCTag=this.PLCTag
+
+           /*     this.$http({
+                    method: 'post',
+                    contentType: "application/json",
+                    url: 'http://192.168.1.117:8080/PLCTagUpdate',
+                    data: nPLCTag
+
+                }).then(function (response) {
+                    console.log(nPLCTag);
+                    console.log(response.data);
+                }.bind(this));*/
             }
         }
     }

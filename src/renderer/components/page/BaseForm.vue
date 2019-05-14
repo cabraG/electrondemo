@@ -135,6 +135,8 @@
         methods: {
             onSubmit() {
                 this.$message.success('提交成功！');
+                console.log(this.from.date1)
+                console.log(this.from.date2)
             }
         }
     }

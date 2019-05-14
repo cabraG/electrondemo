@@ -126,7 +126,8 @@
                 if (process.env.NODE_ENV === 'development') {
                     this.url = '/ms/table/list';
                 };
-                this.$axios.post(this.url, {
+                this.$axios.post(
+                    this.url, {
                     page: this.cur_page
                 }).then((res) => {
                     this.tableData = res.data.list;

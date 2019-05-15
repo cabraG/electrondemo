@@ -21,11 +21,12 @@
                     </el-form-item>
                     <el-form-item label="日期时间">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="datetime" placeholder="开始时间" v-model="form.date1" style="width: 100%;"></el-date-picker>
                         </el-col>
-                        <el-col class="line" :span="2">-</el-col>
+                    </el-form-item>
+                    <el-form-item label="结束时间">
                         <el-col :span="11">
-                            <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+                            <el-date-picker  type="datetime" placeholder="结束时间" v-model="form.date2" style="width: 100%;"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="城市级联">
@@ -63,6 +64,9 @@
 </template>
 
 <script>
+    import {getList,HistoryValueSelect} from "../../api/myapi"
+    import moment from 'moment'
+
     export default {
         name: 'baseform',
         data: function(){
@@ -122,8 +126,8 @@
                 form: {
                     name: '',
                     region: '',
-                    date1: '',
-                    date2: '',
+                    date1: null,
+                    date2: null,
                     delivery: true,
                     type: ['步步高'],
                     resource: '小天才',
@@ -134,9 +138,17 @@
         },
         methods: {
             onSubmit() {
+                var _this=this
+                var data={
+                    startDate:moment(_this.form.date1).utc(),
+                    endDate:moment(_this.form.date2).utc(false)
+                }
+                console.log(data.startDate)
+                console.log(data.endDate)
+                HistoryValueSelect(data).then(function (res) {
+                    console.log(res)
+                })
                 this.$message.success('提交成功！');
-                console.log(this.from.date1)
-                console.log(this.from.date2)
             }
         }
     }

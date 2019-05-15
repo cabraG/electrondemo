@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 import ElementUI from 'element-ui'
-
+import { webFrame } from 'electron'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -12,6 +12,11 @@ import { messages } from './components/common/i18n';
 import './assets/css/icon.css';
 import './components/common/directives';
 import "babel-polyfill";
+
+
+
+webFrame.setVisualZoomLevelLimits(1, 1)
+webFrame.setLayoutZoomLevelLimits(0, 0)
 
 Vue.use(ElementUI)
 Vue.use(VueI18n);

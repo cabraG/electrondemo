@@ -1,11 +1,11 @@
 <template>
-    <div class="header">
+    <div class="header" style="-webkit-app-region: drag">
         <!-- 折叠按钮 -->
-        <div class="collapse-btn" @click="collapseChage">
+        <div class="collapse-btn no-drag" @click="collapseChage">
             <i class="el-icon-menu"></i>
         </div>
-        <div class="logo">后台管理系统</div>
-        <div class="header-right">
+        <div class="logo">PLC二级系统</div>
+        <div class="header-right  no-drag">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
                 <div class="btn-fullscreen" @click="handleFullScreen">
@@ -13,6 +13,7 @@
                         <i class="el-icon-rank"></i>
                     </el-tooltip>
                 </div>
+
                 <!-- 消息中心 -->
                 <div class="btn-bell">
                     <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
@@ -23,7 +24,6 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="../../assets/img/img.jpg"></div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -39,12 +39,21 @@
                         <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
+                <div class="btn-closeWindow" @click="closeWindow">
+                    <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+                        <i class="el-icon-rank"></i>
+                    </el-tooltip>
+                </div>
             </div>
+
+
         </div>
     </div>
 </template>
 <script>
     import bus from '../common/bus';
+    import { remote } from 'electron'
+    const { Menu, dialog, BrowserWindow } = remote
     export default {
         data() {
             return {
@@ -72,6 +81,10 @@
             collapseChage(){
                 this.collapse = !this.collapse;
                 bus.$emit('collapse', this.collapse);
+            },
+            closeWindow(){
+                //关闭窗口
+                window.close();
             },
             // 全屏事件
             handleFullScreen(){
@@ -113,7 +126,7 @@
         position: relative;
         box-sizing: border-box;
         width: 100%;
-        height: 70px;
+        height: 50px;
         font-size: 22px;
         color: #fff;
     }
@@ -121,12 +134,12 @@
         float: left;
         padding: 0 21px;
         cursor: pointer;
-        line-height: 70px;
+        line-height: 50px;
     }
     .header .logo{
         float: left;
         width:250px;
-        line-height: 70px;
+        line-height: 50px;
     }
     .header-right{
         float: right;
@@ -134,7 +147,7 @@
     }
     .header-user-con{
         display: flex;
-        height: 70px;
+        height: 50px;
         align-items: center;
     }
     .btn-fullscreen{
@@ -166,20 +179,14 @@
     .user-name{
         margin-left: 10px;
     }
-    .user-avator{
-        margin-left: 20px;
-    }
-    .user-avator img{
-        display: block;
-        width:40px;
-        height:40px;
-        border-radius: 50%;
-    }
     .el-dropdown-link{
         color: #fff;
         cursor: pointer;
     }
     .el-dropdown-menu__item{
         text-align: center;
+    }
+    .no-drag{
+        -webkit-app-region: no-drag
     }
 </style>

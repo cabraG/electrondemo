@@ -13,31 +13,40 @@
                     <el-option key="2" label="湖南省" value="湖南省"></el-option>
                 </el-select>
                 <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+                <el-date-picker  class="handle-input mr10" type="datetime" placeholder="开始时间" v-model="timeStamp.date1" ></el-date-picker>
+                <el-date-picker  class="handle-input mr10" type="datetime" placeholder="结束时间" v-model="timeStamp.date2" ></el-date-picker>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
+                <el-button type="primary" icon="search" @click="searchByTime">时间搜索</el-button>
             </div>
             <el-table :data="filterTableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="plctag.tagName" label="标签名" sortable width="150">
+                <el-table-column prop="plctag.tagName"
+                                 label="标签名"
+                                 sortable
+                                 width="150">
                 </el-table-column>
-                <el-table-column prop="plctag.dataType" label="数据类型"
+                <el-table-column prop="plctag.dataType"
+                                 label="数据类型"
                                  sortable
                                  width="120">
                 </el-table-column>
-                <el-table-column prop="plctag.address"
-                                 sortable
-                                 label="数据地址">
+                <el-table-column prop="plctag.address"   label="数据地址" sortable>
                 </el-table-column>
                 <el-table-column prop="plctag.arrLength" label="数组长度">
                 </el-table-column>
                 <el-table-column prop="value" label="最近值">
+                    <template scope="scope">
+                        <div >
+                            <el-input size="small" v-model="scope.row.value" placeholder="请输入修改值"
+                            ></el-input>
+                        </div>
+                    </template>
                 </el-table-column>
-                <el-table-column prop="dataTimeStamp"
-                                 sortable
-                                 label="时间戳">
+                <el-table-column prop="timeFormatByme"   label="时间戳" sortable>
                 </el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
                         <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -85,7 +94,7 @@
 </template>
 
 <script>
-    import {getList,HistoryAllLastValueSelect} from "../../api/myapi"
+    import {getList,HistoryAllLastValueSelect,dateUpdate,HistoryValueSelect} from "../../api/myapi"
     import moment from 'moment'
     export default {
         name: 'basetable',
@@ -107,38 +116,21 @@
                     address: '',
                     arrLength:''
                 },
-                idx: -1
+                idx: -1,
+                timeStamp:{
+                    date1:'',
+                    date2:''
+                }
             }
         },
         created() {
-
-
-        },
-        mounted() {
             this.search();
-            //var _this=this
-            setInterval(this.search, 1000);
-        }
-        ,
+        },
         computed: {
             filterTableData() {
                 return this.tableData.filter((d) => {
-                    let is_del = false;
-                    d.dataTimeStamp=moment(d.dataTimeStamp).format('YYYY-MM-DD HH:mm:ss.SSS')
-                    for (let i = 0; i < this.del_list.length; i++) {
-                        if (d.plctag.tagName === this.del_list[i].plctag.tagName) {
-                            is_del = true;
-                            break;
-                        }
-                    }
-                    if (!is_del) {
-                        if (d.plctag.address.indexOf(this.select_cate) > -1 &&
-                            (d.plctag.tagName.indexOf(this.select_word) > -1 ||
-                                d.plctag.address.indexOf(this.select_word) > -1)
-                        ) {
-                            return d;
-                        }
-                    }
+                    d.timeFormatByme=moment(d.dataTimeStamp).format('YYYY-MM-DD HH:mm:ss.SSS')
+                    return d;
                 })
             }
         },
@@ -146,20 +138,33 @@
             // 分页导航
             handleCurrentChange(val) {
                 this.cur_page = val;
-                this.getData();
+                this.searchByTime();
             },
             search() {
-                //this.is_search = true;
+
                 var _this=this
                 HistoryAllLastValueSelect().then(function (res) {
+                    _this.tableData=res
+                })
+
+            },
+            searchByTime(){
+
+                var _this=this
+                var data={
+                    page:_this.cur_page,
+                    rows:10,
+                    startDate:moment(_this.timeStamp.date1).utc(),
+                    endDate:moment(_this.timeStamp.date2).utc(false)
+                }
+                console.log(data.startDate)
+                console.log(data.endDate)
+
+                HistoryValueSelect(data).then(function (res) {
                     console.log(res)
                     _this.tableData=res
                 })
 
-              /*  getList({page:1,rows:10}).then(function (res) {
-                    console.log(res)
-                    _this.tableData=res.list
-                })*/
             },
             formatter(row, column) {
                 return row.address;
@@ -183,16 +188,14 @@
                 this.delVisible = true;
             },
             delAll() {
-                const length = this.multipleSelection.length;
-                let str = '';
-                this.del_list = this.del_list.concat(this.multipleSelection);
-                for (let i = 0; i < length; i++) {
-                    str += this.multipleSelection[i].name + ' ';
-                }
-                this.$message.error('删除了' + str);
-                this.multipleSelection = [];
+                console.log(this.multipleSelection)
+                dateUpdate(this.multipleSelection).then(function (res) {
+                    console.log(res)
+                })
+
             },
             handleSelectionChange(val) {
+                console.log(val)
                 this.multipleSelection = val;
             },
             // 保存编辑

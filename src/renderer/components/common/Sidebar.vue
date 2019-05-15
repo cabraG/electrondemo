@@ -39,14 +39,19 @@
                 collapse: false,
                 items: [
                     {
-                        icon: 'el-icon-lx-home',
+                        icon: 'el-icon-lx-shouye',
                         index: 'dashboard',
                         title: '系统首页'
                     },
-                    {
-                        icon: 'el-icon-lx-cascades',
+                  {
+                        icon: 'el-icon-lx-biaoge',
                         index: 'table',
                         title: '基础表格'
+                    },
+                    {
+                        icon: 'el-icon-lx-biaoge',
+                        index: 'valuetable',
+                        title: '改值表格'
                     },
                     {
                         icon: 'el-icon-lx-copy',
@@ -54,11 +59,12 @@
                         title: 'tab选项卡'
                     },
                     {
-                        icon: 'el-icon-lx-calendar',
+                        icon: 'el-icon-lx-order',
                         index: '3',
                         title: '表单相关',
                         subs: [
                             {
+                                icon: 'el-icon-lx-list',
                                 index: 'form',
                                 title: '基本表单'
                             },
@@ -79,7 +85,7 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-lx-emoji',
+                        icon: 'el-icon-lx-image',
                         index: 'icon',
                         title: '自定义图标'
                     },
@@ -99,7 +105,7 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-lx-warn',
+                        icon: 'el-icon-lx-caution',
                         index: '7',
                         title: '错误处理',
                         subs: [
@@ -135,7 +141,7 @@
         display: block;
         position: absolute;
         left: 0;
-        top: 70px;
+        top: 50px;
         bottom:0;
         overflow-y: scroll;
     }

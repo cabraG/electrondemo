@@ -141,7 +141,6 @@
                 this.searchByTime();
             },
             search() {
-
                 var _this=this
                 HistoryAllLastValueSelect().then(function (res) {
                     _this.tableData=res
@@ -149,7 +148,6 @@
 
             },
             searchByTime(){
-
                 var _this=this
                 var data={
                     page:_this.cur_page,
@@ -162,7 +160,7 @@
 
                 HistoryValueSelect(data).then(function (res) {
                     console.log(res)
-                    _this.tableData=res
+                    _this.tableData=res.list
                 })
 
             },

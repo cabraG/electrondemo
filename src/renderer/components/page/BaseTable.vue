@@ -85,7 +85,7 @@
 </template>
 
 <script>
-    import {getList,HistoryAllLastValueSelect} from "../../api/myapi"
+    import {HistoryAllLastValueSelect} from "../../api/myapi"
     import moment from 'moment'
     export default {
         name: 'basetable',
@@ -116,7 +116,6 @@
         },
         mounted() {
             this.search();
-            //var _this=this
             setInterval(this.search, 1000);
         }
         ,
@@ -149,17 +148,11 @@
                 this.getData();
             },
             search() {
-                //this.is_search = true;
                 var _this=this
                 HistoryAllLastValueSelect().then(function (res) {
                     console.log(res)
                     _this.tableData=res
                 })
-
-              /*  getList({page:1,rows:10}).then(function (res) {
-                    console.log(res)
-                    _this.tableData=res.list
-                })*/
             },
             formatter(row, column) {
                 return row.address;

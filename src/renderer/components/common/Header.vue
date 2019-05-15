@@ -7,23 +7,15 @@
         <div class="logo">PLC二级系统</div>
         <div class="header-right  no-drag">
             <div class="header-user-con">
-                <!-- 全屏显示 -->
-                <div class="btn-fullscreen" @click="handleFullScreen">
-                    <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
-                        <i class="el-icon-rank"></i>
-                    </el-tooltip>
-                </div>
-
                 <!-- 消息中心 -->
-                <div class="btn-bell">
-                    <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
-                        <router-link to="/tabs">
-                            <i class="el-icon-bell"></i>
-                        </router-link>
-                    </el-tooltip>
-                    <span class="btn-bell-badge" v-if="message"></span>
-                </div>
-                <!-- 用户头像 -->
+                <!--   <div class="btn-bell">
+                       <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
+                           <router-link to="/tabs">
+                               <i class="el-icon-bell"></i>
+                           </router-link>
+                       </el-tooltip>
+                       <span class="btn-bell-badge" v-if="message"></span>
+                   </div>-->
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -39,11 +31,17 @@
                         <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
-                <div class="btn-closeWindow" @click="closeWindow">
-                    <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
-                        <i class="el-icon-rank"></i>
-                    </el-tooltip>
+
+                <div class="handle-bar no-drag" v-if="os !== 'darwin'">
+                    <i class="el-icon-minus" @click="minimizeWindow"></i>
+                    <i class="el-icon-lx-copy" @click="maxmizeWindow"></i>
+                    <i class="el-icon-close" @click="closeWindow"></i>
                 </div>
+              <!--  <div class="btn-closeWindow" @click="closeWindow">
+                    <el-tooltip effect="dark" :content="'关闭'" placement="bottom">
+                        <i class="el-icon-lx-close"></i>
+                    </el-tooltip>
+                </div>-->
             </div>
 
 
@@ -52,7 +50,7 @@
 </template>
 <script>
     import bus from '../common/bus';
-    import { remote } from 'electron'
+    import { remote,ipcRenderer } from 'electron'
     const { Menu, dialog, BrowserWindow } = remote
     export default {
         data() {
@@ -82,6 +80,14 @@
                 this.collapse = !this.collapse;
                 bus.$emit('collapse', this.collapse);
             },
+            minimizeWindow () {
+                const window = BrowserWindow.getFocusedWindow()
+                window.minimize()
+            },
+            maxmizeWindow (){
+                ipcRenderer.send("max")
+            }
+            ,
             closeWindow(){
                 //关闭窗口
                 window.close();
@@ -143,7 +149,16 @@
     }
     .header-right{
         float: right;
-        padding-right: 50px;
+        padding-right: 20px;
+    }
+
+    .handle-bar
+    {
+        padding-left: 30px;
+    }
+    .handle-bar i
+    {
+        padding-left: 10px;
     }
     .header-user-con{
         display: flex;
@@ -182,6 +197,7 @@
     .el-dropdown-link{
         color: #fff;
         cursor: pointer;
+        font-size: 18px;
     }
     .el-dropdown-menu__item{
         text-align: center;

@@ -64,7 +64,7 @@
 </template>
 
 <script>
-    import {getList,HistoryValueSelect} from "../../api/myapi"
+    import {HistoryValueSelect} from "../../api/myapi"
     import moment from 'moment'
 
     export default {

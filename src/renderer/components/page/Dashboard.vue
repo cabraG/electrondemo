@@ -4,14 +4,12 @@
             <el-col :span="8">
                 <el-card shadow="hover" class="mgb20" style="height:252px;">
                     <div class="user-info">
-                        <img src="../../assets/img/img.jpg" class="user-avator" alt="">
+
                         <div class="user-info-cont">
                             <div class="user-info-name">{{name}}</div>
-
                         </div>
                     </div>
                     <div class="user-info-list">上次登录时间：<span>2018-01-01</span></div>
-                    <div class="user-info-list">上次登录地点：<span>东莞</span></div>
                 </el-card>
                 <el-card shadow="hover" style="height:252px;">
                     <div slot="header" class="clearfix">
@@ -32,7 +30,7 @@
                     <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-1">
-                                <i class="el-icon-lx-people grid-con-icon"></i>
+                                <i class="el-icon-lx-like  e grid-con-icon"></i>
                                 <div class="grid-cont-right">
                                     <div class="grid-num">1234</div>
                                     <div>用户访问量</div>
@@ -43,7 +41,7 @@
                     <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-2">
-                                <i class="el-icon-lx-notice grid-con-icon"></i>
+                                <i class="el-icon-lx-help grid-con-icon"></i>
                                 <div class="grid-cont-right">
                                     <div class="grid-num">321</div>
                                     <div>系统消息</div>
@@ -54,7 +52,7 @@
                     <el-col :span="8">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-3">
-                                <i class="el-icon-lx-goods grid-con-icon"></i>
+                                <i class="el-icon-lx-setting grid-con-icon"></i>
                                 <div class="grid-cont-right">
                                     <div class="grid-num">5000</div>
                                     <div>数量</div>
@@ -97,6 +95,11 @@
             </el-col>
             <el-col :span="12">
                 <el-card shadow="hover">
+                    <div class="my-time-select">
+                    <el-date-picker  class="handle-input mr10" type="datetime" placeholder="开始时间" v-model="timeStamp.date1" ></el-date-picker>
+                    <el-date-picker  class="handle-input mr10" type="datetime" placeholder="结束时间" v-model="timeStamp.date2" ></el-date-picker>
+                        <el-button type="primary" icon="search" @click="search">搜索</el-button>
+                    </div>
                     <schart ref="line" class="schart" canvasId="line" :data="data" type="line" :options="options2"></schart>
                 </el-card>
             </el-col>
@@ -106,7 +109,8 @@
 
 <script>
     import Schart from 'vue-schart';
-
+    import {HistoryValueSelect} from "../../api/myapi"
+    import moment from 'moment'
     import bus from '../common/bus';
     export default {
         name: 'dashboard',
@@ -138,9 +142,9 @@
                     }
                 ],
                 data: [{
-                        name: '2018/09/04',
-                        value: 1083
-                    },
+                    name: '2018/09/04',
+                    value: 1083
+                },
                     {
                         name: '2018/09/05',
                         value: 941
@@ -181,11 +185,18 @@
                     bgColor: '#F5F8FD',
                     bottomPadding: 30,
                     topPadding: 30
-                }
+                },
+                timeStamp:{
+                    date1:'',
+                    date2:''
+                },
+                resdata:[]
             }
         },
         components: {
             Schart
+        },
+        computed:{
         },
 
         created(){
@@ -202,10 +213,10 @@
         methods: {
             changeDate(){
                 const now = new Date().getTime();
-                this.data.forEach((item, index) => {
+             /*   this.data.forEach((item, index) => {
                     const date = new Date(now - (6 - index) * 86400000);
                     item.name = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`
-                })
+                })*/
             },
             handleListener(){
                 bus.$on('collapse', this.handleBus);
@@ -220,6 +231,33 @@
             renderChart(){
                 this.$refs.bar.renderChart();
                 this.$refs.line.renderChart();
+            },
+            search(){
+                var _this=this
+                var data={
+                    plctag:{
+                        id:1
+                    },
+                    startDate:_this.timeStamp.date1,
+                    endDate:_this.timeStamp.date2
+                }
+                HistoryValueSelect(data).then(function (res) {
+                    console.log(res)
+                    _this.resdata=res.list
+                    var datalist=[]
+                    _this.resdata.forEach((item,index)=>{
+                        var dataS={
+                            name:moment(item.dataTimeStamp).format('hh:mm:ss'),
+                            value:item.value
+                        }
+
+                        datalist.push(dataS);
+
+                    })
+                    console.log(datalist)
+                    _this.data=datalist
+                    _this.renderChart()
+                })
             }
         }
     }
@@ -335,6 +373,15 @@
     .schart {
         width: 100%;
         height: 300px;
+    }
+    .my-time-select{
+        padding: 10px;
+    }
+    .my-time-select button{
+        margin-left: 30px;
+    }
+    .handle-input{
+        margin-left: 20px;
     }
 
 </style>

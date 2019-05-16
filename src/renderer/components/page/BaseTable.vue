@@ -51,9 +51,6 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="80px" >
-                <el-form-item label="日期">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date" value-format="yyyy-MM-dd" style="width:100%"></el-date-picker>
-                </el-form-item>
                 <el-form-item label="标签名">
                     <el-input v-model="form.tagName"></el-input>
                 </el-form-item>
@@ -164,10 +161,10 @@
                 this.idx = index;
                 const item = this.tableData[index];
                 this.form = {
-                    tagName: item.tagName,
-                    dataType: item.dataType,
-                    address: item.address,
-                    arrLength:item.arrLength
+                    tagName: item.plctag.tagName,
+                    dataType: item.plctag.dataType,
+                    address: item.plctag.address,
+                    arrLength:item.plctag.arrLength
                 }
                 this.editVisible = true;
             },

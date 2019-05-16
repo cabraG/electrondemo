@@ -7,10 +7,10 @@ export default new Router({
 
 
     routes: [
-      /*  {
+       {
             path: '/',
             redirect: '/dashboard'
-        },*/
+        },
         {
             path: '/',
             component: resolve => require(['../components/common/Home.vue'], resolve),

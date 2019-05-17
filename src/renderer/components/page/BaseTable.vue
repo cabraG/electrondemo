@@ -104,16 +104,37 @@
                     address: '',
                     arrLength:''
                 },
-                idx: -1
+                idx: -1,
+                websocket:''
             }
         },
         created() {
 
-
+            if ('WebSocket' in window) {
+                // 不带参数的写法
+                this.websocket = new WebSocket("ws://192.168.1.117:8080/websocket");
+                // 通过路径传递参数的方法（服务端采用第一种方法"@ServerEndpoint"实现）
+            }
+            else {
+                alert('当前浏览器 Not support websocket')
+            }
+            this.websocket.onopen = function () {
+                console.log("WebSocket连接成功");
+            }
+            this.websocket.onmessage = function (evt)
+            {
+                if(evt.data==="连接成功"){
+                    console.log(evt.data)
+                }
+                else
+                    _this.tableData=JSON.parse(evt.data)
+            };
+        },beforeDestroy(){
+            this.websocket.close();
         },
         mounted() {
             this.search();
-            //setInterval(this.search, 1000);
+
         }
         ,
         computed: {

@@ -4,24 +4,25 @@
             <el-col :span="8">
                 <el-card shadow="hover" class="mgb20" style="height:252px;">
                     <div class="user-info">
-
+                        <img src="../../assets/img/logo.jpg" alt="">
                         <div class="user-info-cont">
                             <div class="user-info-name">{{name}}</div>
                         </div>
                     </div>
                     <div class="user-info-list">上次登录时间：<span>2018-01-01</span></div>
+                    <div class="user-info-list">PLC工作时间：<span>2018-01-01</span></div>
                 </el-card>
                 <el-card shadow="hover" style="height:252px;">
                     <div slot="header" class="clearfix">
                         <span>语言详情</span>
                     </div>
-                    Vue
+                    成品率
                     <el-progress :percentage="71.3" color="#42b983"></el-progress>
-                    JavaScript
+                    次品率
                     <el-progress :percentage="24.1" color="#f1e05a"></el-progress>
-                    CSS
+                    机器温度
                     <el-progress :percentage="3.7"></el-progress>
-                    HTML
+                    负载
                     <el-progress :percentage="0.9" color="#f56c6c"></el-progress>
                 </el-card>
             </el-col>
@@ -141,34 +142,7 @@
                         status: true,
                     }
                 ],
-                data: [{
-                    name: '2018/09/04',
-                    value: 1083
-                },
-                    {
-                        name: '2018/09/05',
-                        value: 941
-                    },
-                    {
-                        name: '2018/09/06',
-                        value: 1139
-                    },
-                    {
-                        name: '2018/09/07',
-                        value: 816
-                    },
-                    {
-                        name: '2018/09/08',
-                        value: 327
-                    },
-                    {
-                        name: '2018/09/09',
-                        value: 228
-                    },
-                    {
-                        name: '2018/09/10',
-                        value: 1065
-                    }
+                data: [
                 ],
                 options: {
                     title: '最近七天每天的用户访问量',
@@ -201,7 +175,8 @@
 
         created(){
             this.handleListener();
-            this.changeDate();
+            this.getCreateData();
+            setInterval(this.getCreateData, 1000);
         },
         activated(){
             this.handleListener();
@@ -211,13 +186,6 @@
             bus.$off('collapse', this.handleBus);
         },
         methods: {
-            changeDate(){
-                const now = new Date().getTime();
-             /*   this.data.forEach((item, index) => {
-                    const date = new Date(now - (6 - index) * 86400000);
-                    item.name = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`
-                })*/
-            },
             handleListener(){
                 bus.$on('collapse', this.handleBus);
                 // 调用renderChart方法对图表进行重新渲染
@@ -232,6 +200,33 @@
                 this.$refs.bar.renderChart();
                 this.$refs.line.renderChart();
             },
+            getCreateData(){
+                const now = new Date().getTime();
+                var _this=this
+                var data={
+                 paramEntity:{
+                     tid:1
+                 },
+                 startDate:new Date(now-3000),
+                 endDate:now
+             }
+                HistoryValueSelect(data).then(function (res) {
+                    console.log(res)
+                    _this.resdata=res.list
+                    var datalist=[]
+                    _this.resdata.forEach((item,index)=>{
+                        var dataS={
+                            name:moment(item.dataTimeStamp).format('hh:mm:ss'),
+                            value:item.value
+                        }
+                        datalist.push(dataS);
+                    })
+                    console.log(datalist)
+                    _this.data=datalist
+                    _this.renderChart()
+                })
+            }
+        ,
             search(){
                 var _this=this
                 var data={
@@ -250,9 +245,7 @@
                             name:moment(item.dataTimeStamp).format('hh:mm:ss'),
                             value:item.value
                         }
-
                         datalist.push(dataS);
-
                     })
                     console.log(datalist)
                     _this.data=datalist

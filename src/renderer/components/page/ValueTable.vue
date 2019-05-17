@@ -94,7 +94,7 @@
 </template>
 
 <script>
-    import {PLCTagSelect,HistoryAllLastValueSelect,dateUpdate,HistoryValueSelect} from "../../api/myapi"
+    import {HistoryAllLastValueSelect,dateUpdate,HistoryValueSelect} from "../../api/myapi"
     import moment from 'moment'
     export default {
         name: 'basetable',

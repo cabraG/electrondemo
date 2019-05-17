@@ -17,17 +17,17 @@
             </div>
             <el-table :data="filterTableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="plctag.tagName" label="标签名" sortable width="150">
+                <el-table-column prop="pLCTag.tagName" label="标签名" sortable width="150">
                 </el-table-column>
-                <el-table-column prop="plctag.dataType" label="数据类型"
+                <el-table-column prop="pLCTag.dataType" label="数据类型"
                                  sortable
                                  width="120">
                 </el-table-column>
-                <el-table-column prop="plctag.address"
+                <el-table-column prop="pLCTag.address"
                                  sortable
                                  label="数据地址">
                 </el-table-column>
-                <el-table-column prop="plctag.arrLength" label="数组长度">
+                <el-table-column prop="pLCTag.arrLength" label="数组长度">
                 </el-table-column>
                 <el-table-column prop="value" label="最近值">
                 </el-table-column>
@@ -109,7 +109,7 @@
             }
         },
         created() {
-
+            var _this=this
             if ('WebSocket' in window) {
                 // 不带参数的写法
                 this.websocket = new WebSocket("ws://192.168.1.117:8080/websocket");
@@ -133,8 +133,7 @@
             this.websocket.close();
         },
         mounted() {
-            this.search();
-
+            //this.search();
         }
         ,
         computed: {
@@ -143,15 +142,15 @@
                     let is_del = false;
                     d.dataTimeStamp=moment(d.dataTimeStamp).format('YYYY-MM-DD HH:mm:ss.SSS')
                     for (let i = 0; i < this.del_list.length; i++) {
-                        if (d.plctag.tagName === this.del_list[i].plctag.tagName) {
+                        if (d.pLCTag.tagName === this.del_list[i].pLCTag.tagName) {
                             is_del = true;
                             break;
                         }
                     }
                     if (!is_del) {
-                        if (d.plctag.address.indexOf(this.select_cate) > -1 &&
-                            (d.plctag.tagName.indexOf(this.select_word) > -1 ||
-                                d.plctag.address.indexOf(this.select_word) > -1)
+                        if (d.pLCTag.address.indexOf(this.select_cate) > -1 &&
+                            (d.pLCTag.tagName.indexOf(this.select_word) > -1 ||
+                                d.pLCTag.address.indexOf(this.select_word) > -1)
                         ) {
                             return d;
                         }
@@ -182,10 +181,10 @@
                 this.idx = index;
                 const item = this.tableData[index];
                 this.form = {
-                    tagName: item.plctag.tagName,
-                    dataType: item.plctag.dataType,
-                    address: item.plctag.address,
-                    arrLength:item.plctag.arrLength
+                    tagName: item.pLCTag.tagName,
+                    dataType: item.pLCTag.dataType,
+                    address: item.pLCTag.address,
+                    arrLength:item.pLCTag.arrLength
                 }
                 this.editVisible = true;
             },

@@ -121,39 +121,15 @@
                     date1:'',
                     date2:''
                 },
-                websocket:''
             }
         },
         created() {
-            var _this=this
-            //判断当前浏览器是否支持WebSocket
-            if ('WebSocket' in window) {
-                // 不带参数的写法
-                this.websocket = new WebSocket("ws://192.168.1.117:8080/websocket");
-                // 通过路径传递参数的方法（服务端采用第一种方法"@ServerEndpoint"实现）
-            }
-            else {
-                alert('当前浏览器 Not support websocket')
-            }
-
-            this.websocket.onopen = function () {
-                console.log("WebSocket连接成功");
-            }
-            this.websocket.onmessage = function (evt)
-            {
-                if(evt.data==="连接成功"){
-                    console.log(evt.data)
-                }
-                else
-                _this.tableData=JSON.parse(evt.data)
-            };
-
-        },beforeDestroy(){
-        this.websocket.close();
-    },
+                this.search()
+        },
         computed: {
             filterTableData() {
                 return this.tableData.filter((d) => {
+                    d.pLCTag=d.plctag;
                     d.timeFormatByme=moment(d.dataTimeStamp).format('YYYY-MM-DD HH:mm:ss.SSS')
                     return d;
                 })
@@ -166,7 +142,6 @@
                 this.searchByTime();
             },
             search() {
-                //this.websocket.send("hello");
                 var _this=this
                 HistoryAllLastValueSelect().then(function (res) {
                     _this.tableData=res

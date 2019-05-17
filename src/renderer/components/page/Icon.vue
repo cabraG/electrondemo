@@ -10,7 +10,7 @@
             <p style="line-height: 50px;">
                 直接通过设置类名为 el-icon-lx-iconName 来使用即可。例如：（共{{iconList.length}}个图标）
             </p>
-           <div>{{PLCTag}}</div>
+            <div>{{PLCTag}}</div>
 
             <el-button @click="search()" type="success" icon="el-icon-search" round>默认按钮</el-button>
             <i class="el-icon-lx-redpacket_fill"></i>
@@ -46,17 +46,16 @@
 </template>
 
 <script>
-    import {getList,HistoryValueSelect} from "../../api/myapi"
 
     export default {
-        data: function(){
+        data: function () {
             return {
                 keyword: '',
-                PLCTag:{
+                PLCTag: {
                     tid: 10,
                     tagName: "tag10",
                     dataType: "Interger",
-                    address:"M100",
+                    address: "M100",
                     arrLength: 0,
                     historyValuesList: null
                 },
@@ -101,122 +100,72 @@
                     'shouye',
                     'biaoge'
                 ],
-            pagebean:{
-                page: 1,
-                rows: 10,
-                totalRecord: 3,
-                list: [],
-                keyWord: null,
-                paramEntity: null,
-                start: 0,
-                pageMap: {
-                total: 3,
-                    rows: []
-            }
-                }
 
 
             }
         },
         computed: {
-            list(){
+            list() {
                 return this.iconList.filter((item) => {
                     return item.indexOf(this.keyword) !== -1;
                 })
             }
         },
-        methods:{
+        methods: {
             search() {
-               var _this=this
-              /* getList({ "page":1,"rows":10}).then(function (response){
-                   console.log(response);
-                   _this.PLCTag=response.list[0];
-               })*/
-
-                this.pagebean.paramEntity=this.PLCTag;
-
-              HistoryValueSelect(this.pagebean).then(function (res) {
-                  console.log(res)
-              })
-
-             /*   this.$http({
-                    method: 'get',
-                    url: 'http://192.168.1.117:8080/PLCTagSelect',
-                    params: {
-                        "page":1,
-                        "rows":10
-                    }
-                }).then(function (response) {
-                    console.log(response);
-                    //this.PLCTag=response.data;
-                }.bind(this));*/
-
-             /*   this.$http({
-                    method: 'post',
-                    url: 'http://192.168.1.117:8080/PLCTagInsert',
-                    data: {
-                        "anumber":1
-                    }
-                }).then(function (response) {
-                    console.log(response);
-                    this.demov=response.data;
-                }.bind(this));*/
-                //const nPLCTag=JSON.stringify(this.PLCTag)
-
-
-                const nPLCTag=this.PLCTag
-
-           /*     this.$http({
-                    method: 'post',
-                    contentType: "application/json",
-                    url: 'http://192.168.1.117:8080/PLCTagUpdate',
-                    data: nPLCTag
-
-                }).then(function (response) {
-                    console.log(nPLCTag);
-                    console.log(response.data);
-                }.bind(this));*/
+                var _this = this
+                /* PLCTagSelect({ "page":1,"rows":10}).then(function (response){
+                     console.log(response);
+                     _this.PLCTag=response.list[0];
+                 })*/
             }
         }
     }
 </script>
 
 <style scoped>
-.example-p{
-    height: 45px;
-    display: flex;
-    align-items: center;
-}
-.search-box{
-    text-align: center;
-    margin-top: 10px;
-}
-.search{
-    width: 300px;
-}
-ul,li{
-    list-style: none;
-}
-.icon-li{
-    display: inline-block;
-    padding: 10px;
-    width: 120px;
-    height: 120px;
-}
-.icon-li-content{
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-.icon-li-content i{
-    font-size: 36px;
-    color: #606266;
-}
-.icon-li-content span{
-    margin-top: 10px;
-    color: #787878;
-}
+    .example-p {
+        height: 45px;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-box {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .search {
+        width: 300px;
+    }
+
+    ul, li {
+        list-style: none;
+    }
+
+    .icon-li {
+        display: inline-block;
+        padding: 10px;
+        width: 120px;
+        height: 120px;
+    }
+
+    .icon-li-content {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .icon-li-content i {
+        font-size: 36px;
+        color: #606266;
+    }
+
+    .icon-li-content span {
+        margin-top: 10px;
+        color: #787878;
+    }
 </style>

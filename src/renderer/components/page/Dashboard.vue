@@ -235,8 +235,8 @@
             search(){
                 var _this=this
                 var data={
-                    plctag:{
-                        id:1
+                    paramEntity:{
+                        tid:1
                     },
                     startDate:_this.timeStamp.date1,
                     endDate:_this.timeStamp.date2

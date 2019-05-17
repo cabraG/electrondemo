@@ -113,7 +113,7 @@
         },
         mounted() {
             this.search();
-            setInterval(this.search, 1000);
+            //setInterval(this.search, 1000);
         }
         ,
         computed: {

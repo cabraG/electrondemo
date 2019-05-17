@@ -20,19 +20,19 @@
             </div>
             <el-table :data="filterTableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="plctag.tagName"
+                <el-table-column prop="pLCTag.tagName"
                                  label="标签名"
                                  sortable
                                  width="150">
                 </el-table-column>
-                <el-table-column prop="plctag.dataType"
+                <el-table-column prop="pLCTag.dataType"
                                  label="数据类型"
                                  sortable
                                  width="120">
                 </el-table-column>
-                <el-table-column prop="plctag.address"   label="数据地址" sortable>
+                <el-table-column prop="pLCTag.address"   label="数据地址" sortable>
                 </el-table-column>
-                <el-table-column prop="plctag.arrLength" label="数组长度">
+                <el-table-column prop="pLCTag.arrLength" label="数组长度">
                 </el-table-column>
                 <el-table-column prop="value" label="最近值">
                     <template scope="scope">
@@ -94,7 +94,7 @@
 </template>
 
 <script>
-    import {getList,HistoryAllLastValueSelect,dateUpdate,HistoryValueSelect} from "../../api/myapi"
+    import {PLCTagSelect,HistoryAllLastValueSelect,dateUpdate,HistoryValueSelect} from "../../api/myapi"
     import moment from 'moment'
     export default {
         name: 'basetable',
@@ -120,12 +120,37 @@
                 timeStamp:{
                     date1:'',
                     date2:''
-                }
+                },
+                websocket:''
             }
         },
         created() {
-            this.search();
-        },
+            var _this=this
+            //判断当前浏览器是否支持WebSocket
+            if ('WebSocket' in window) {
+                // 不带参数的写法
+                this.websocket = new WebSocket("ws://192.168.1.117:8080/websocket");
+                // 通过路径传递参数的方法（服务端采用第一种方法"@ServerEndpoint"实现）
+            }
+            else {
+                alert('当前浏览器 Not support websocket')
+            }
+
+            this.websocket.onopen = function () {
+                console.log("WebSocket连接成功");
+            }
+            this.websocket.onmessage = function (evt)
+            {
+                if(evt.data==="连接成功"){
+                    console.log(evt.data)
+                }
+                else
+                _this.tableData=JSON.parse(evt.data)
+            };
+
+        },beforeDestroy(){
+        this.websocket.close();
+    },
         computed: {
             filterTableData() {
                 return this.tableData.filter((d) => {
@@ -141,6 +166,7 @@
                 this.searchByTime();
             },
             search() {
+                //this.websocket.send("hello");
                 var _this=this
                 HistoryAllLastValueSelect().then(function (res) {
                     _this.tableData=res

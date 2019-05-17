@@ -1,6 +1,8 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+
+
+export function PLCTagSelect(params) {
     return request({
         url: '/PLCTagSelect',
         method: 'get',

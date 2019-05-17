@@ -32,16 +32,11 @@
                     </el-dropdown-menu>
                 </el-dropdown>
 
-                <div class="handle-bar no-drag" v-if="os !== 'darwin'">
+                <div class="handle-bar no-drag">
                     <i class="el-icon-minus" @click="minimizeWindow"></i>
                     <i class="el-icon-lx-copy" @click="maxmizeWindow"></i>
                     <i class="el-icon-close" @click="closeWindow"></i>
                 </div>
-              <!--  <div class="btn-closeWindow" @click="closeWindow">
-                    <el-tooltip effect="dark" :content="'关闭'" placement="bottom">
-                        <i class="el-icon-lx-close"></i>
-                    </el-tooltip>
-                </div>-->
             </div>
 
 

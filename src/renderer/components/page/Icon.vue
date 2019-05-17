@@ -46,6 +46,7 @@
 </template>
 
 <script>
+    import {PLCTagSelect } from '../../api/myapi'
 
     export default {
         data: function () {
@@ -114,10 +115,10 @@
         methods: {
             search() {
                 var _this = this
-                /* PLCTagSelect({ "page":1,"rows":10}).then(function (response){
+                 PLCTagSelect({ "page":1,"rows":10}).then(function (response){
                      console.log(response);
                      _this.PLCTag=response.list[0];
-                 })*/
+                 })
             }
         }
     }

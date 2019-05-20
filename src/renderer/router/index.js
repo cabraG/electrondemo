@@ -65,6 +65,13 @@ export default new Router({
                     component: resolve => require(['../components/page/Permission.vue'], resolve),
                     meta: { title: '权限测试', permission: true }
                 },
+
+                {
+                    // 富文本编辑器组件
+                    path: '/editor',
+                    component: resolve => require(['../components/page/VueEditor.vue'], resolve),
+                    meta: { title: '富文本编辑器' }
+                },
                 {
                     path: '/404',
                     component: resolve => require(['../components/page/404.vue'], resolve),

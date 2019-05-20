@@ -46,12 +46,12 @@
                   {
                         icon: 'el-icon-lx-biaoge',
                         index: 'table',
-                        title: '基础表格'
+                        title: '生产DPI'
                     },
                     {
                         icon: 'el-icon-lx-biaoge',
                         index: 'valuetable',
-                        title: '改值表格'
+                        title: '实时数据'
                     },
                     {
                         icon: 'el-icon-lx-copy',
@@ -59,30 +59,14 @@
                         title: 'tab选项卡'
                     },
                     {
+                        icon: 'el-icon-lx-copy',
+                        index: 'editor',
+                        title: '富文本编辑器'
+                    },
+                    {
                         icon: 'el-icon-lx-order',
-                        index: '3',
-                        title: '表单相关',
-                        subs: [
-                            {
-                                icon: 'el-icon-lx-list',
-                                index: 'form',
-                                title: '基本表单'
-                            },
-                            {
-                                index: '3-2',
-                                title: '三级菜单',
-                                subs: [
-                                    {
-                                        index: 'editor',
-                                        title: '富文本编辑器'
-                                    },
-                                    {
-                                        index: 'markdown',
-                                        title: 'markdown编辑器'
-                                    },
-                                ]
-                            }
-                        ]
+                        index: 'form',
+                        title: '表单相关'
                     },
                     {
                         icon: 'el-icon-lx-image',

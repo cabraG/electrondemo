@@ -39,9 +39,10 @@
             bus.$on('tags', msg => {
                 let arr = [];
                 for(let i = 0, len = msg.length; i < len; i ++){
-                    if(msg[i].name='ValueTable'){}//剔除keepalive
+                    if(msg[i].name=='valuetable'){}//剔除keepalive
                     else
                     msg[i].name && arr.push(msg[i].name);
+                    console.log(msg[i].name)
                 }
                 this.tagsList = arr;
             })

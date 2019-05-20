@@ -97,7 +97,7 @@
     import {HistoryAllLastValueSelect,dateUpdate,HistoryValueSelect} from "../../api/myapi"
     import moment from 'moment'
     export default {
-        name: 'basetable',
+        name: 'valuetable',
         data() {
             return {
                 url: './vuetable.json',

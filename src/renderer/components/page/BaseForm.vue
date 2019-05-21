@@ -3,61 +3,54 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-lx-calendar"></i> 表单</el-breadcrumb-item>
-                <el-breadcrumb-item>基本表单</el-breadcrumb-item>
+                <el-breadcrumb-item>钢卷信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
-            <div class="form-box">
-                <el-form ref="form" :model="form" label-width="80px">
-                    <el-form-item label="表单名称">
-                        <el-input v-model="form.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="选择器">
-                        <el-select v-model="form.region" placeholder="请选择">
-                            <el-option key="bbk" label="步步高" value="bbk"></el-option>
-                            <el-option key="xtc" label="小天才" value="xtc"></el-option>
-                            <el-option key="imoo" label="imoo" value="imoo"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="日期时间">
-                        <el-col :span="11">
-                            <el-date-picker type="datetime" placeholder="开始时间" v-model="form.date1" style="width: 100%;"></el-date-picker>
-                        </el-col>
-                    </el-form-item>
-                    <el-form-item label="结束时间">
-                        <el-col :span="11">
-                            <el-date-picker  type="datetime" placeholder="结束时间" v-model="form.date2" style="width: 100%;"></el-date-picker>
-                        </el-col>
-                    </el-form-item>
-                    <el-form-item label="城市级联">
-                        <el-cascader :options="options" v-model="form.options"></el-cascader>
-                    </el-form-item>
-                    <el-form-item label="选择开关">
-                        <el-switch v-model="form.delivery"></el-switch>
-                    </el-form-item>
-                    <el-form-item label="多选框">
-                        <el-checkbox-group v-model="form.type">
-                            <el-checkbox label="步步高" name="type"></el-checkbox>
-                            <el-checkbox label="小天才" name="type"></el-checkbox>
-                            <el-checkbox label="imoo" name="type"></el-checkbox>
-                        </el-checkbox-group>
-                    </el-form-item>
-                    <el-form-item label="单选框">
-                        <el-radio-group v-model="form.resource">
-                            <el-radio label="步步高"></el-radio>
-                            <el-radio label="小天才"></el-radio>
-                            <el-radio label="imoo"></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="文本框">
-                        <el-input type="textarea" rows="5" v-model="form.desc"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="onSubmit">表单提交</el-button>
-                        <el-button>取消</el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+
+
+                    <el-form ref="form" :model="form" label-width="100px">
+                        <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>基本信息</span>
+                        </div>
+                        <el-row :gutter="10" v-for="rowdata in myformdata">
+                            <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2"></el-col>
+                            <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" v-for="fdata in rowdata" :key="fdata">
+                                <el-form-item :label="fdata.name">
+                                    <el-input v-model="fdata.value"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2"></el-col>
+                        </el-row>
+                    </el-card>
+                        <el-card class="box-card">
+                            <el-col :span=12>
+                            <el-row v-for="rowdata in myformdata">
+                                <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" v-for="o in 4" :key="o">
+                                <label>demo</label><el-input>1</el-input>
+                                </el-col>
+                            </el-row>
+                            </el-col>
+                            <el-col :span=12>
+                                <el-col :span=12>
+                                <el-card class="box-card">
+                                </el-card>
+                                </el-col>
+                                <el-col :span=12>
+                                    <el-card class="box-card">
+
+                                    </el-card>
+                                </el-col>
+                            </el-col>
+                        </el-card>
+
+                        <el-form-item>
+                            <el-button type="primary" @click="onSubmit">表单提交</el-button>
+                            <el-button>取消</el-button>
+                        </el-form-item>
+
+                    </el-form>
         </div>
 
     </div>
@@ -133,7 +126,53 @@
                     resource: '小天才',
                     desc: '',
                     options: []
-                }
+                },
+                myformdata:[
+                    [{
+                        name:'计划号',
+                        value:'3710710'
+                    },
+                    {
+                        name:'来料钢卷号',
+                        value:'9307214702'
+                    },
+                    {
+                        name:'产出钢卷号',
+                        value:'930721470201'
+                    },
+                    {
+                        name:'班别',
+                        value:'乙'
+                    },
+                    {
+                        name:'班次',
+                        value:'早'
+                    }],
+
+                    [
+                        {
+                        name:'钢种号牌',
+                        value:'DC03'
+                    },
+                        {
+                            name:'产品大类',
+                            value:'L'
+                        },
+                        {
+                            name:'原料厚度',
+                            value:0.900
+                        },
+                        {
+                            name:'原料宽度',
+                            value:955.00
+                        },
+                        {
+                            name:'原料重量',
+                            value:8870
+                        },
+
+                    ]
+                ]
             }
         },
         methods: {
@@ -153,3 +192,23 @@
         }
     }
 </script>
+<style>
+
+    .el-col {
+        border-radius: 4px;
+    }
+    .bg-purple-dark {
+        background: #99a9bf;
+    }
+    .bg-purple {
+        background: #d3dce6;
+    }
+    .bg-purple-light {
+        background: #e5e9f2;
+    }
+    .grid-content {
+        border-radius: 4px;
+        min-height: 36px;
+    }
+
+</style>

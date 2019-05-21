@@ -68,7 +68,7 @@
     import moment from 'moment'
 
     export default {
-        name: 'baseform',
+        name: 'setting',
         data: function(){
             return {
                 options:[

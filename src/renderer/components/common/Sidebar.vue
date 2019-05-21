@@ -60,30 +60,25 @@
                     },
                     {
                         icon: 'el-icon-lx-order',
-                        index: '3',
+                        index: 'form',
                         title: '表单相关',
-                        subs: [
-                            {
-                                icon: 'el-icon-lx-list',
-                                index: 'form',
-                                title: '基本表单'
-                            },
-                            {
-                                index: '3-2',
-                                title: '三级菜单',
-                                subs: [
-                                    {
-                                        index: 'editor',
-                                        title: '富文本编辑器'
-                                    },
-                                    {
-                                        index: 'markdown',
-                                        title: 'markdown编辑器'
-                                    },
-                                ]
-                            }
-                        ]
+                    }
+                    ,
+                    {
+                        icon: 'el-icon-lx-order',
+                        index: 'editor',
+                        title: '文本编辑',
                     },
+                    {
+                        icon: 'el-icon-lx-order',
+                        index: 'charts',
+                        title: '图表展示',
+                    },{
+                        icon: 'el-icon-lx-setting',
+                        index: 'setting',
+                        title: '系统设置',
+                    }
+                    ,
                     {
                         icon: 'el-icon-lx-image',
                         index: 'icon',

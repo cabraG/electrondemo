@@ -6,14 +6,11 @@
                 <el-breadcrumb-item>钢卷信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="container">
+        <div class="container basefrom">
 
 
                     <el-form ref="form" :model="form" label-width="100px">
-                        <el-card class="box-card">
-                        <div slot="header" class="clearfix">
-                            <span>基本信息</span>
-                        </div>
+                        <el-card class="box-card-one">
                         <el-row :gutter="10" v-for="rowdata in myformdata">
                             <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2"></el-col>
                             <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" v-for="fdata in rowdata" :key="fdata">
@@ -24,32 +21,112 @@
                             <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2"></el-col>
                         </el-row>
                     </el-card>
-                        <el-card class="box-card">
-                            <el-col :span=12>
-                            <el-row v-for="rowdata in myformdata">
-                                <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" v-for="o in 4" :key="o">
-                                <label>demo</label><el-input>1</el-input>
+                        <el-card class="box-card-two" style="margin-top: 20px;padding-bottom: 20px">
+                            <el-col :span=12  class="cardtwo-left" >
+                                <el-row class="zhangfrow">
+                                    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                                        <label style="visibility: hidden">测试值</label>
+                                    </el-col>
+                                    <el-col style="padding: 5px" :xs="5" :sm="5" :md="5" :lg="5" :xl="5" v-for="zfdata in zhangformdata" :key="zfdata">
+                                      <span>{{zfdata.name}}</span>
+                                    </el-col>
+                                </el-row>
+                            <el-row class="zhangsrow">
+                                <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                                    <span>设定值</span>
+                                </el-col>
+                                <el-col style="padding: 5px" :xs="5" :sm="5" :md="5" :lg="5" :xl="5" v-for="zfdata in zhangformdata" :key="zfdata">
+                                <el-input :value="zfdata.setvalue"></el-input>
                                 </el-col>
                             </el-row>
+                                <el-row class="zhangtrow">
+                                    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                                        <span>实际值</span>
+                                    </el-col>
+                                    <el-col style="padding: 5px" :xs="5" :sm="5" :md="5" :lg="5" :xl="5" v-for="zfdata in zhangformdata" :key="zfdata">
+                                        <el-input :value="zfdata.realvalue"></el-input>
+                                    </el-col>
+                                </el-row>
                             </el-col>
-                            <el-col :span=12>
-                                <el-col :span=12>
-                                <el-card class="box-card">
+                            <el-col :span=12  class="cardtwo-right" >
+                                <el-col :span=14>
+                                <el-card class="box-card-yuando" >
+                                    <el-row class="yuandoheader">
+                                        <h3 style="text-align: center">圆盘剪操作侧</h3>
+                                    </el-row>
+                                    <el-row class="yuanfrow">
+                                        <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+                                            <label style="visibility: hidden">测试值</label>
+                                        </el-col>
+                                        <el-col style="padding: 5px" :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+                                            <span>设定值</span>
+                                        </el-col>
+                                        <el-col style="padding: 5px" :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+                                            <span>实际值</span>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row v-for="yfdata in yuanformdata[0]" :key="yfdata" class="yuanothrow" style="margin: 5px">
+                                        <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+                                            <span>{{yfdata.name}}</span>
+                                        </el-col>
+                                        <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8" style="margin: 5px">
+                                            <el-input  :value="yfdata.setvalue"></el-input>
+                                        </el-col>
+                                        <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8" style="margin: 5px">
+                                            <el-input  :value="yfdata.realvalue" class="yellow"></el-input>
+                                        </el-col>
+                                    </el-row>
                                 </el-card>
                                 </el-col>
-                                <el-col :span=12>
-                                    <el-card class="box-card">
-
+                                <el-col :span=10>
+                                    <el-card class="box-card-yuanmo">
+                                        <el-row class="yuanmoheader">
+                                            <h3 style="text-align: center">圆盘剪传动侧</h3>
+                                        </el-row>
+                                        <el-row class="yuanmofrow">
+                                            <el-col style="padding: 5px" :xs="11" :sm="11" :md="11" :lg="11" :xl="11">
+                                                <span>设定值</span>
+                                            </el-col>
+                                            <el-col style="padding: 5px" :xs="11" :sm="11" :md="11" :lg="11" :xl="11">
+                                                <span>实际值</span>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row v-for="yfdata in yuanformdata[1]" :key="yfdata" style="margin: 5px" class="yuanmoothrow">
+                                            <el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10" style="margin: 5px">
+                                                <el-input  :value="yfdata.setvalue"></el-input>
+                                            </el-col>
+                                            <el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10" style="margin: 5px">
+                                                <el-input  :value="yfdata.realvalue" class="yellow"></el-input>
+                                            </el-col>
+                                        </el-row>
                                     </el-card>
                                 </el-col>
                             </el-col>
                         </el-card>
-
-                        <el-form-item>
-                            <el-button type="primary" @click="onSubmit">表单提交</el-button>
-                            <el-button>取消</el-button>
-                        </el-form-item>
-
+                        <el-card class="box-card-three" style="margin-top: 20px;padding-bottom: 20px">
+                            <el-row :gutter="10">
+                                <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" v-for="cfdata in chengformdata" :key="cfdata">
+                                    <el-form-item :label="cfdata.name">
+                                        <el-input v-model="cfdata.value"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-card>
+                        <el-card class="box-card-four" style="margin-top: 20px;padding-bottom: 20px">
+                            <el-row :gutter="10">
+                                <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" v-for="ffdata in feiformdata" :key="ffdata">
+                                    <el-form-item :label="ffdata.name">
+                                        <el-input v-model="ffdata.value"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-card>
+                        <div class="button-upload">
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit">表单提交</el-button>
+                                <el-button>取消</el-button>
+                            </el-form-item>
+                        </div>
                     </el-form>
         </div>
 
@@ -59,9 +136,13 @@
 <script>
     import {HistoryValueSelect} from "../../api/myapi"
     import moment from 'moment'
+    import MytagValue from "../../components/page/MytagValue"
 
     export default {
         name: 'baseform',
+        components: {
+            MytagValue
+        },
         data: function(){
             return {
                 options:[
@@ -172,6 +253,106 @@
                         },
 
                     ]
+                ],
+                zhangformdata:[
+                        { name:'张力',
+                        setvalue:'0',
+                        realvalue:'0',
+                    },
+                        { name:'速度',
+                            setvalue:'0',
+                            realvalue:'0',
+                        },
+                        { name:'上表面涂油量',
+                            setvalue:'1000',
+                            realvalue:'0',
+                        },
+                        { name:'下表面涂油量',
+                            setvalue:'1000',
+                            realvalue:'0',
+                        }
+                ],
+                yuanformdata:[
+                    [
+                        {
+                            name:'GAP',
+                            setvalue:'0.090',
+                            realvalue:'0.12',
+
+                        },
+                        {
+                            name:'LAP',
+                            setvalue:'0.45',
+                            realvalue:'0.3999676',
+
+                        },
+                        {
+                            name:'宽度',
+                            setvalue:'478.50',
+                            realvalue:'1000',
+
+                        }
+                    ],
+                    [
+                        {
+                            name:'GAP',
+                            setvalue:'0.090',
+                            realvalue:'0.12',
+
+                        },
+                        {
+                            name:'LAP',
+                            setvalue:'0.45',
+                            realvalue:'0.3997907',
+
+                        },
+                        {
+                            name:'宽度',
+                            setvalue:'478.50',
+                            realvalue:'1000',
+
+                        }
+                    ]
+                ],
+                chengformdata:[
+                    {
+                        name:'称重钢卷号',
+                        value:'9307214702'
+
+                    },
+                    {
+                        name:'称重准备好',
+                        value:'false'
+
+                    },
+                    {
+                        name:'称重重量',
+                        value:'0'
+
+                    },
+                    {
+                        name:'班别',
+                        value:'乙'
+
+                    },
+                    {
+                        name:'班次',
+                        value:'白'
+
+                    }
+                ],
+                feiformdata:[
+                    {
+                        name:'废卷重量',
+                        value:'801'
+
+                    },
+                    {
+                        name:'涂油偏量',
+                        value:'0'
+
+                    },
+
                 ]
             }
         },
@@ -194,21 +375,26 @@
 </script>
 <style>
 
-    .el-col {
-        border-radius: 4px;
+    .basefrom span{
+        font-size: 14px;
+        display:block;
+        widht:18px;
+        text-align:center;
+        margin-top: 15px;
+        margin-right: 0px;
     }
-    .bg-purple-dark {
-        background: #99a9bf;
+
+    .box-card-yuanmo{
+        margin-left: 10px;
     }
-    .bg-purple {
-        background: #d3dce6;
+
+    .yellow .el-input__inner{
+        background-color: yellow;
     }
-    .bg-purple-light {
-        background: #e5e9f2;
+    .button-upload{
+        margin: 20px;
     }
-    .grid-content {
-        border-radius: 4px;
-        min-height: 36px;
-    }
+
+
 
 </style>

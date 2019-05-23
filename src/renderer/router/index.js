@@ -72,7 +72,7 @@ export default new Router({
                     meta: { title: '富文本编辑器' }
                 },
                 {
-                    // vue-schart组件
+                    // vue-schart组件sss
                     path: '/charts',
                     component: resolve => require(['../components/page/BaseCharts.vue'], resolve),
                     meta: { title: 'schart图表' }
